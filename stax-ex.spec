@@ -1,13 +1,13 @@
 Name:                stax-ex
 Version:             1.7.7
-Release:             10
+Release:             11
 Summary:             StAX API extensions
 License:             CDDL or GPLv2
 Url:                 https://stax-ex.dev.java.net
 Source0:             https://github.com/javaee/metro-stax-ex/archive/stax-ex-%{version}.tar.gz
 BuildRequires:       dos2unix maven-local mvn(javax.xml.stream:stax-api) mvn(junit:junit)
 BuildRequires:       mvn(net.java:jvnet-parent:pom:) mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:       mvn(org.apache.maven.plugins:maven-enforcer-plugin)
+BuildRequires:       mvn(org.apache.maven.plugins:maven-enforcer-plugin) git
 BuildArch:           noarch
 
 %description
@@ -49,5 +49,8 @@ dos2unix LICENSE.txt
 %license LICENSE.txt
 
 %changelog
+* Mon May 31 2021 huanghaitao <huanghaitao8@huawei.com> - 1.7.7-11
+- Completing build dependencies to fix git commands missing error
+
 * Thu Apr 30 2020 Jeffery.Gao <gaojianxing@huawei.com> - 1.7.7-10
 - Package init
