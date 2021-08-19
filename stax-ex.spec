@@ -1,13 +1,13 @@
 Name:                stax-ex
 Version:             1.7.7
-Release:             11
+Release:             12
 Summary:             StAX API extensions
 License:             CDDL or GPLv2
 Url:                 https://stax-ex.dev.java.net
 Source0:             https://github.com/javaee/metro-stax-ex/archive/stax-ex-%{version}.tar.gz
 BuildRequires:       dos2unix maven-local mvn(javax.xml.stream:stax-api) mvn(junit:junit)
 BuildRequires:       mvn(net.java:jvnet-parent:pom:) mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:       mvn(org.apache.maven.plugins:maven-enforcer-plugin) git
+BuildRequires:       mvn(org.apache.maven.plugins:maven-enforcer-plugin) 
 BuildArch:           noarch
 
 %description
@@ -25,7 +25,7 @@ Obsoletes:           stax-ex-javadoc < %{version}-%{release}
 The package provides javadoc for stax-ex.
 
 %prep
-%autosetup -n metro-stax-ex-stax-ex-%{version} -p1 -S git
+%autosetup -n metro-stax-ex-stax-ex-%{version} -p1
 %pom_remove_dep javax.activation:activation
 %pom_remove_plugin org.codehaus.mojo:buildnumber-maven-plugin
 %pom_remove_plugin org.codehaus.mojo:findbugs-maven-plugin
@@ -49,6 +49,9 @@ dos2unix LICENSE.txt
 %license LICENSE.txt
 
 %changelog
+* Fri Jul 30 2021 chenyanpanHW <chenyanpan@huawei.com> - 1.7.7-12
+- DESC: delete -S git from %autosetup, and delete BuildRequires git
+
 * Mon May 31 2021 huanghaitao <huanghaitao8@huawei.com> - 1.7.7-11
 - Completing build dependencies to fix git commands missing error
 
