@@ -1,13 +1,14 @@
 Name:                stax-ex
-Version:             1.7.7
-Release:             12
+Version:             1.8
+Release:             1
 Summary:             StAX API extensions
 License:             CDDL or GPLv2
 Url:                 https://stax-ex.dev.java.net
-Source0:             https://github.com/javaee/metro-stax-ex/archive/stax-ex-%{version}.tar.gz
-BuildRequires:       dos2unix maven-local mvn(javax.xml.stream:stax-api) mvn(junit:junit)
-BuildRequires:       mvn(net.java:jvnet-parent:pom:) mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:       mvn(org.apache.maven.plugins:maven-enforcer-plugin) 
+Source0:             https://github.com/javaee/metro-stax-ex/archive/%{version}.tar.gz
+Source1:             xmvn-reactor
+Patch0:              0001-fix-maven-compiler-plugin-release-flag.patch
+BuildRequires:       maven java-1.8.0-openjdk-devel dos2unix maven-local
+Requires:            javapackages-tools java-1.8.0-openjdk
 BuildArch:           noarch
 
 %description
@@ -25,30 +26,45 @@ Obsoletes:           stax-ex-javadoc < %{version}-%{release}
 The package provides javadoc for stax-ex.
 
 %prep
-%autosetup -n metro-stax-ex-stax-ex-%{version} -p1
-%pom_remove_dep javax.activation:activation
-%pom_remove_plugin org.codehaus.mojo:buildnumber-maven-plugin
-%pom_remove_plugin org.codehaus.mojo:findbugs-maven-plugin
-%pom_remove_plugin org.glassfish.copyright:glassfish-copyright-maven-plugin
-%pom_remove_plugin org.apache.maven.plugins:maven-deploy-plugin
+%autosetup -n metro-stax-ex-%{version} -p1
+find . -name '*.jar' -print -delete
+find . -name '*.class' -print -delete
+pushd %{name}
+cp %{SOURCE1} ./.xmvn-reactor
+echo `pwd` > absolute_prefix.log
+sed -i 's/\//\\\//g' absolute_prefix.log
+absolute_prefix=`head -n 1 absolute_prefix.log`
+sed -i 's/absolute-prefix/'"$absolute_prefix"'/g' .xmvn-reactor
+rm -rf src/java/module-info.java
 mv LICENSE.txt LICENSE.txt.tmp
 iconv -f ISO-8859-1 -t UTF-8 LICENSE.txt.tmp > LICENSE.txt
 dos2unix LICENSE.txt
 %mvn_file :stax-ex stax-ex
+popd
 
 %build
-%mvn_build -- -Dproject.build.sourceEncoding=UTF-8
+pushd %{name}
+mvn -Dproject.build.sourceEncoding=UTF-8 -DskipTests -DskipIT package
+popd
 
 %install
+pushd %{name}
 %mvn_install
+popd
+install -d -m 0755 %{buildroot}/%{_javadocdir}/%{name}
+install -m 0755 %{name}/target/stax-ex-1.8-javadoc.jar %{buildroot}/%{_javadocdir}/%{name}
 
-%files -f .mfiles
-%license LICENSE.txt
+%files -f %{name}/.mfiles
+%license LICENSE
 
-%files help -f .mfiles-javadoc
-%license LICENSE.txt
+%files help 
+%license LICENSE
+%{_javadocdir}/%{name}
 
 %changelog
+* Tue Apr 19 2022 wangkai <wangkai385@h-partners.com> - 1.8-1
+- Update to version 1.8
+
 * Fri Jul 30 2021 chenyanpanHW <chenyanpan@huawei.com> - 1.7.7-12
 - DESC: delete -S git from %autosetup, and delete BuildRequires git
 
