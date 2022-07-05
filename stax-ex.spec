@@ -62,7 +62,7 @@ install -m 0755 %{name}/target/stax-ex-1.8-javadoc.jar %{buildroot}/%{_javadocdi
 %{_javadocdir}/%{name}
 
 %changelog
-* Tue July 5 2022 Chenyx <chenyixiong3@huawei.com> - 1.8-2
+* Tue Jul 5 2022 Chenyx <chenyixiong3@huawei.com> - 1.8-2
 - License compliance rectification
 
 * Tue Apr 19 2022 wangkai <wangkai385@h-partners.com> - 1.8-1
