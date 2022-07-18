@@ -1,8 +1,8 @@
 Name:                stax-ex
 Version:             1.8
-Release:             1
+Release:             2
 Summary:             StAX API extensions
-License:             CDDL or GPLv2
+License:             CDDL-1.1 or GPLv2
 Url:                 https://stax-ex.dev.java.net
 Source0:             https://github.com/javaee/metro-stax-ex/archive/%{version}.tar.gz
 Source1:             xmvn-reactor
@@ -62,6 +62,9 @@ install -m 0755 %{name}/target/stax-ex-1.8-javadoc.jar %{buildroot}/%{_javadocdi
 %{_javadocdir}/%{name}
 
 %changelog
+* Tue Jul 5 2022 Chenyx <chenyixiong3@huawei.com> - 1.8-2
+- License compliance rectification
+
 * Tue Apr 19 2022 wangkai <wangkai385@h-partners.com> - 1.8-1
 - Update to version 1.8
 
